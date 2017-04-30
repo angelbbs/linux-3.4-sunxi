@@ -3,7 +3,7 @@ set -e
 
 #Setup common variables
 export ARCH=arm
-export CROSS_COMPILE=${ARCH}-linux-gnueabi-
+export CROSS_COMPILE=${ARCH}-none-eabi-
 if [ -d "${LICHEE_TOOLCHAIN_PATH}" ]; then
 	GCC=$(find ${LICHEE_TOOLCHAIN_PATH} -perm /a+x -a -regex '.*-gcc');
 	export CROSS_COMPILE="${GCC%-*}-";
