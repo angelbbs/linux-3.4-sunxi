@@ -45,7 +45,7 @@
 #define pwm_debug(msg...)
 #endif
 
-typedef unsigned int __u32;
+//typedef unsigned int __u32;
 
 __u32 record_reg[PWM_REG_NUM];
 
@@ -136,7 +136,7 @@ static int sunxi_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
                 temp &= ~(1 << 20);
             }
 
-	sunxi_pwm_write_reg(0, temp);
+        sunxi_pwm_write_reg(0, temp);
 
 #endif
 
@@ -144,7 +144,7 @@ static int sunxi_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
 }
 
 static int sunxi_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
-		int duty_ns, int period_ns)
+                int duty_ns, int period_ns)
 {
     #if ((defined CONFIG_ARCH_SUN8IW1P1) || (defined CONFIG_ARCH_SUN9IW1P1))
 
@@ -207,14 +207,14 @@ static int sunxi_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
     __u32 entire_cycles_max = 65536;
     __u32 temp;
 
-	if(period_ns < 42) {
-		/* if freq lt 24M, then direct output 24M clock */
-		temp = sunxi_pwm_read_reg(pwm->pwm * 0x10);
-		temp |= (0x1 << 9);//pwm bypass
-		sunxi_pwm_write_reg(pwm->pwm * 0x10, temp);
+        if(period_ns < 42) {
+                /* if freq lt 24M, then direct output 24M clock */
+                temp = sunxi_pwm_read_reg(pwm->pwm * 0x10);
+                temp |= (0x1 << 9);//pwm bypass
+                sunxi_pwm_write_reg(pwm->pwm * 0x10, temp);
 
-		return 0;
-	}
+                return 0;
+        }
 
     if(period_ns < 10667)
         freq = 93747;
@@ -372,11 +372,11 @@ static void sunxi_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
 }
 
 static struct pwm_ops sunxi_pwm_ops = {
-	.config = sunxi_pwm_config,
-	.enable = sunxi_pwm_enable,
-	.disable = sunxi_pwm_disable,
-	.set_polarity = sunxi_pwm_set_polarity,
-	.owner = THIS_MODULE,
+        .config = sunxi_pwm_config,
+        .enable = sunxi_pwm_enable,
+        .disable = sunxi_pwm_disable,
+        .set_polarity = sunxi_pwm_set_polarity,
+        .owner = THIS_MODULE,
 };
 
 static int sunxi_pwm_probe(struct platform_device *pdev)
@@ -392,16 +392,16 @@ static int sunxi_pwm_probe(struct platform_device *pdev)
 
     platform_set_drvdata(pdev, pwm);
 
-	pwm->chip.dev = &pdev->dev;
-	pwm->chip.ops = &sunxi_pwm_ops;
-	pwm->chip.base = -1;
-	pwm->chip.npwm = PWM_NUM;
+        pwm->chip.dev = &pdev->dev;
+        pwm->chip.ops = &sunxi_pwm_ops;
+        pwm->chip.base = -1;
+        pwm->chip.npwm = PWM_NUM;
 
-	ret = pwmchip_add(&pwm->chip);
-	if (ret < 0) {
-		dev_err(&pdev->dev, "pwmchip_add() failed: %d\n", ret);
-		return ret;
-	}
+        ret = pwmchip_add(&pwm->chip);
+        if (ret < 0) {
+                dev_err(&pdev->dev, "pwmchip_add() failed: %d\n", ret);
+                return ret;
+        }
 
     return 0;
 }
