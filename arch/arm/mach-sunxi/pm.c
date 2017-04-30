@@ -13,6 +13,9 @@
 
 standby_type_e standby_type = NORMAL_STANDBY;
 EXPORT_SYMBOL(standby_type);
+standby_level_e standby_level = STANDBY_INITIAL;
+EXPORT_SYMBOL(standby_level);
+
 
 static int aw_pm_valid(suspend_state_t state)
 {
