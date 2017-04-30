@@ -14,11 +14,10 @@ export OBJCOPY=${CROSS_COMPILE}objcopy
 export OBJDUMP=${CROSS_COMPILE}objdump
 export LOCALVERSION=""
 
-KERNEL_VERSION="3.8"
+KERNEL_VERSION=`make -s kernelversion -C ./`
 LICHEE_KDIR=`pwd`
 LICHEE_MOD_DIR==${LICHEE_KDIR}/output/lib/modules/${KERNEL_VERSION}
 
-#CONFIG_CHIP_ID=1633
 
 update_kern_ver()
 {
@@ -47,14 +46,14 @@ build_standby()
 {
 	echo "build standby"
 	make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} KDIR=${LICHEE_KDIR} \
-		-C ${LICHEE_KDIR}/arch/arm/mach-sun6i/pm/standby all
+		-C ${LICHEE_KDIR}/arch/arm/mach-sunxi/pm/standby all
 }
 
 build_mdfs()
 {
 	echo "build mdfs"
 	make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} KDIR=${LICHEE_KDIR} \
-		-C ${LICHEE_KDIR}/arch/arm/mach-sun6i/dram-freq/mdfs all
+		-C ${LICHEE_KDIR}/arch/arm/mach-sunxi/dram-freq/mdfs all
 }
 
 NAND_ROOT=${LICHEE_KDIR}/modules/nand
@@ -104,7 +103,7 @@ build_kernel()
 	cd ${LICHEE_KDIR}
 	if [ ! -e .config ]; then
 		echo -e "\n\t\tUsing default config... ...!\n"
-		cp arch/arm/configs/sun6ismp_defconfig .config
+		cp arch/arm/configs/sun8iw5p1smp_defconfig .config
 	fi
 
 	#try to remove csi drivers
@@ -144,7 +143,7 @@ build_kernel()
 #	cp drivers/net/wireless/bcm4330/firmware/bcm4330.bin ${LICHEE_MOD_DIR}
 #	cp drivers/net/wireless/bcm4330/firmware/bcm4330.hcd ${LICHEE_MOD_DIR}
 #	cp drivers/net/wireless/bcm4330/firmware/nvram.txt ${LICHEE_MOD_DIR}/bcm4330_nvram.txt
-	echo "sun6i compile successful"
+	echo "sun8iw5 compile successful"
 }
 
 build_modules()
